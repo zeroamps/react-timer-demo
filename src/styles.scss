@@ -16,12 +16,35 @@
 // 5. Include remainder of required parts
 @import 'node_modules/bootstrap/scss/maps';
 @import 'node_modules/bootstrap/scss/mixins';
+
+$font-sizes: map-merge(
+  $font-sizes,
+  (
+    7: $font-size-base * 0.875,
+    8: $font-size-base * 0.75,
+    9: $font-size-base * 0.625,
+    10: $font-size-base * 0.5
+  )
+);
+
 @import 'node_modules/bootstrap/scss/utilities';
 
 // Bootstrap doesn’t include color and background-color utilities for every color variable,
 // but you can generate these yourself with our utility API and our extended Sass maps added in v5.1.0.
 
-$all-colors: map-merge-multiple($blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans);
+$all-colors: map-merge-multiple(
+  $blues,
+  $indigos,
+  $purples,
+  $pinks,
+  $reds,
+  $oranges,
+  $yellows,
+  $greens,
+  $teals,
+  $cyans,
+  $grays
+);
 
 $utilities: map-merge(
   $utilities,
@@ -72,26 +95,29 @@ $utilities: map-merge(
   )
 );
 
-// Bootstrap doesn't include responsive widths by default
-// so they need to be generated
+$utilities: map-merge(
+  $utilities,
+  (
+    'width':
+      map-merge(
+        map-get($utilities, 'width'),
+        (
+          responsive: true
+        )
+      )
+  )
+);
 
 $utilities: map-merge(
   $utilities,
   (
-    'width': (
-      property: width,
-      class: w,
-      responsive: true,
-      values: (
-        25: 25%,
-        33: 33%,
-        50: 50%,
-        66: 66%,
-        75: 75%,
-        100: 100%,
-        auto: auto
+    'font-size':
+      map-merge(
+        map-get($utilities, 'font-size'),
+        (
+          responsive: true
+        )
       )
-    )
   )
 );
 
