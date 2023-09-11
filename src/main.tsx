@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Button, Card, Container, Navbar } from 'react-bootstrap';
+import { Button, Card, Container, Form, Modal, Navbar } from 'react-bootstrap';
 import './styles.scss';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -47,7 +47,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             </div>
           </Card.Body>
           <Card.Footer className="d-flex gap-1 justify-content-end p-1 border-top border-300">
-            <Button className="fs-8 px-3 p-0" variant="primary" size="sm">
+            <Button className="fs-8 px-3 p-0" variant="success" size="sm">
               Edit
             </Button>
             <Button className="fs-8 px-3 p-0" variant="danger" size="sm">
@@ -82,7 +82,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             </div>
           </Card.Body>
           <Card.Footer className="d-flex gap-1 justify-content-end p-1 border-top border-green-300">
-            <Button className="fs-8 px-3 p-0" variant="primary" size="sm">
+            <Button className="fs-8 px-3 p-0" variant="success" size="sm">
               Edit
             </Button>
             <Button className="fs-8 px-3 p-0" variant="danger" size="sm">
@@ -90,6 +90,40 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             </Button>
           </Card.Footer>
         </Card>
+
+        <Modal show={true} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Timer</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className="mb-3" controlId="formName">
+                <Form.Label>Name</Form.Label>
+                <Form.Control type="text" placeholder="Enter name" />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formTarget">
+                <Form.Label>Target</Form.Label>
+                <Form.Control type="text" placeholder="Enter target date and time" />
+                <Form.Text className="fs-8 text-muted px-1">Use this input format: yyyy-MM-dd HH:mm:ss</Form.Text>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary">Close</Button>
+            <Button variant="success">Save</Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={false} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Timer</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Do you really want to delete the timer?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary">Close</Button>
+            <Button variant="danger">Delete</Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </>
   </React.StrictMode>
