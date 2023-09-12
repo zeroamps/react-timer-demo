@@ -2,11 +2,12 @@ import { Button, Form, Modal } from 'react-bootstrap';
 
 type Props = {
   show: boolean;
+  onClose: () => void;
 };
 
-export function EditTimerDialog({ show }: Props) {
+export function EditTimerDialog({ show, onClose }: Props) {
   return (
-    <Modal show={show} centered>
+    <Modal show={show} centered onHide={onClose}>
       <Modal.Header closeButton>
         <Modal.Title>Timer</Modal.Title>
       </Modal.Header>
@@ -24,8 +25,12 @@ export function EditTimerDialog({ show }: Props) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary">Close</Button>
-        <Button variant="success">Save</Button>
+        <Button variant="secondary" onClick={onClose}>
+          Close
+        </Button>
+        <Button variant="success" onClick={onClose}>
+          Save
+        </Button>
       </Modal.Footer>
     </Modal>
   );

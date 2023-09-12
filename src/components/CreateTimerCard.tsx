@@ -5,6 +5,10 @@ import { EditTimerDialog } from './EditTimerDialog';
 export function CreateTimerCard() {
   const [show, setShow] = useState(false);
 
+  function handleCloseDialog() {
+    setShow(false);
+  }
+
   return (
     <>
       <Card className="bg-yellow-100 mt-3 border-yellow-300 text-center">
@@ -14,7 +18,7 @@ export function CreateTimerCard() {
           </Button>
         </Card.Body>
       </Card>
-      <EditTimerDialog show={show} />
+      <EditTimerDialog show={show} onClose={() => handleCloseDialog()} />
     </>
   );
 }
