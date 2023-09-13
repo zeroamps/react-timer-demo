@@ -1,5 +1,5 @@
 import { TimerDetailCard } from './TimerDetailCard';
-import { CreateTimerCard } from './CreateTimerCard';
+import { TimerCreateCard } from './TimerCreateCard';
 import { Timer } from '../domains';
 
 const timers: Timer[] = [
@@ -13,7 +13,7 @@ export function TimerList() {
 
   return (
     <>
-      <CreateTimerCard />
+      <TimerCreateCard />
       {timerDetailCards}
     </>
   );

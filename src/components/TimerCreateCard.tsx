@@ -1,13 +1,9 @@
 import { useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { EditTimerDialog } from './EditTimerDialog';
+import { TimerEditDialog } from './TimerEditDialog';
 
-export function CreateTimerCard() {
+export function TimerCreateCard() {
   const [show, setShow] = useState(false);
-
-  function handleCloseDialog() {
-    setShow(false);
-  }
 
   return (
     <>
@@ -18,7 +14,7 @@ export function CreateTimerCard() {
           </Button>
         </Card.Body>
       </Card>
-      <EditTimerDialog show={show} onClose={() => handleCloseDialog()} />
+      <TimerEditDialog show={show} onClose={() => setShow(false)} />
     </>
   );
 }

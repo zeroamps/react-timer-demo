@@ -1,11 +1,17 @@
+import { useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Timer } from '../domains';
+import { TimerEditDialog } from './TimerEditDialog';
+import { TimerDeleteDialog } from './TimerDeleteDialog';
 
 type Props = {
   timer: Timer;
 };
 
 export function TimerDetailCard({ timer }: Props) {
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
   return (
     <Card className="bg-100 mt-3 border-300">
       <Card.Header className="border-bottom border-300">{timer.name}</Card.Header>
@@ -33,13 +39,15 @@ export function TimerDetailCard({ timer }: Props) {
         </div>
       </Card.Body>
       <Card.Footer className="d-flex gap-1 justify-content-end p-1 border-top border-300">
-        <Button className="fs-8 px-3 p-0" variant="success" size="sm">
+        <Button className="fs-8 px-3 p-0" variant="success" size="sm" onClick={() => setShowEditDialog(true)}>
           Edit
         </Button>
-        <Button className="fs-8 px-3 p-0" variant="danger" size="sm">
+        <Button className="fs-8 px-3 p-0" variant="danger" size="sm" onClick={() => setShowDeleteDialog(true)}>
           Delete
         </Button>
       </Card.Footer>
+      <TimerEditDialog show={showEditDialog} onClose={() => setShowEditDialog(false)} />
+      <TimerDeleteDialog show={showDeleteDialog} onClose={() => setShowDeleteDialog(false)} />
     </Card>
   );
 }

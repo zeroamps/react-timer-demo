@@ -5,7 +5,7 @@ type Props = {
   onClose: () => void;
 };
 
-export function EditTimerDialog({ show, onClose }: Props) {
+export function TimerEditDialog({ show, onClose }: Props) {
   return (
     <Modal show={show} centered onHide={onClose}>
       <Modal.Header closeButton>
