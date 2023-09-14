@@ -1,19 +1,20 @@
+import { useEffect } from 'react';
 import { TimerDetailCard } from './TimerDetailCard';
 import { TimerCreateCard } from './TimerCreateCard';
-import { Timer } from '../domains';
-
-const timers: Timer[] = [
-  { id: '1', name: 'Birthday', target: new Date(2024, 1, 1) },
-  { id: '2', name: 'Birthday', target: new Date(2023, 1, 1) },
-  { id: '3', name: 'Birthday', target: new Date(2024, 1, 1) }
-];
+import { useTimersReducer } from '../hooks/useTimersReducer';
 
 export function TimerList() {
-  const timerDetailCards = timers.map((timer) => <TimerDetailCard key={timer.id} timer={timer} />);
+  const [timers, dispatch] = useTimersReducer();
+
+  useEffect(() => {
+    dispatch({ type: 'reload' });
+  }, [dispatch]);
+
+  const timerDetailCards = timers.map((timer) => <TimerDetailCard key={timer.id} timer={timer} dispatch={dispatch} />);
 
   return (
     <>
-      <TimerCreateCard />
+      <TimerCreateCard dispatch={dispatch} />
       {timerDetailCards}
     </>
   );

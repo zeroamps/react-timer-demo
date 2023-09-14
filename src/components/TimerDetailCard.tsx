@@ -1,25 +1,37 @@
 import { useState } from 'react';
+import { Button, Card } from 'react-bootstrap';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 dayjs.extend(durationPlugin);
 
-import { Button, Card } from 'react-bootstrap';
-import { Timer } from '../domains';
 import { TimerEditDialog } from './TimerEditDialog';
 import { TimerDeleteDialog } from './TimerDeleteDialog';
+import { TimersReducerAction } from '../hooks/useTimersReducer';
+import { Timer } from '../domains';
 
 type Props = {
   timer: Timer;
+  dispatch: React.Dispatch<TimersReducerAction>;
 };
 
-export function TimerDetailCard({ timer }: Props) {
+export function TimerDetailCard({ timer, dispatch }: Props) {
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const currentDateTime = new Date();
   const finished = timer.target <= currentDateTime;
   const duration = dayjs.duration(timer.target.getTime() - currentDateTime.getTime());
+
+  function handleSaveTimer() {
+    dispatch({ type: 'update', id: timer.id, name: 'Lorem Ipsum', target: new Date(2024, 1, 1) });
+    setShowEditDialog(false);
+  }
+
+  function handleDeleteTimer() {
+    dispatch({ type: 'delete', id: timer.id });
+    setShowDeleteDialog(false);
+  }
 
   return (
     <Card className={classNames('mt-3', finished ? 'bg-green-100 border-green-300' : 'bg-100 border-300')}>
@@ -61,8 +73,12 @@ export function TimerDetailCard({ timer }: Props) {
           Delete
         </Button>
       </Card.Footer>
-      <TimerEditDialog show={showEditDialog} onClose={() => setShowEditDialog(false)} />
-      <TimerDeleteDialog show={showDeleteDialog} onClose={() => setShowDeleteDialog(false)} />
+      <TimerEditDialog show={showEditDialog} onClose={() => setShowEditDialog(false)} onSave={handleSaveTimer} />
+      <TimerDeleteDialog
+        show={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onDelete={handleDeleteTimer}
+      />
     </Card>
   );
 }

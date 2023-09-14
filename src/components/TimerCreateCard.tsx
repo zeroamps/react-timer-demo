@@ -1,9 +1,19 @@
 import { useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { TimerEditDialog } from './TimerEditDialog';
+import { TimersReducerAction } from '../hooks/useTimersReducer';
 
-export function TimerCreateCard() {
+type Props = {
+  dispatch: React.Dispatch<TimersReducerAction>;
+};
+
+export function TimerCreateCard({ dispatch }: Props) {
   const [show, setShow] = useState(false);
+
+  function handleSaveTimer() {
+    dispatch({ type: 'create', name: 'Lorem Ipsum', target: new Date(2024, 1, 1) });
+    setShow(false);
+  }
 
   return (
     <>
@@ -14,7 +24,7 @@ export function TimerCreateCard() {
           </Button>
         </Card.Body>
       </Card>
-      <TimerEditDialog show={show} onClose={() => setShow(false)} />
+      <TimerEditDialog show={show} onClose={() => setShow(false)} onSave={handleSaveTimer} />
     </>
   );
 }

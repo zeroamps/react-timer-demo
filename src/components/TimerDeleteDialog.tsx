@@ -3,9 +3,10 @@ import { Button, Modal } from 'react-bootstrap';
 type Props = {
   show: boolean;
   onClose: () => void;
+  onDelete: () => void;
 };
 
-export function TimerDeleteDialog({ show, onClose }: Props) {
+export function TimerDeleteDialog({ show, onClose, onDelete }: Props) {
   return (
     <Modal show={show} centered onHide={onClose}>
       <Modal.Header closeButton>
@@ -16,7 +17,7 @@ export function TimerDeleteDialog({ show, onClose }: Props) {
         <Button variant="secondary" onClick={onClose}>
           Close
         </Button>
-        <Button variant="danger" onClick={onClose}>
+        <Button variant="danger" onClick={onDelete}>
           Delete
         </Button>
       </Modal.Footer>
