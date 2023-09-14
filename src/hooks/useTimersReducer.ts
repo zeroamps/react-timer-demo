@@ -17,19 +17,12 @@ export function useTimersReducer() {
 function timersReducer(timers: Timer[], action: TimersReducerAction) {
   switch (action.type) {
     case 'reload': {
-      const loadedTimers = localStorage.getItem(LOCAL_STORAGE_TIMERS_KEY);
-      if (loadedTimers) {
-        return JSON.parse(loadedTimers, (key, value) => {
-          if (key === 'target') return new Date(value);
-          return value;
-        }) as Timer[];
-      }
-      return [];
+      return getTimersFromLocalStorage();
     }
 
     case 'create': {
       const changedTimers = [...timers, { id: uuidv4(), name: action.name, target: action.target }];
-      localStorage.setItem(LOCAL_STORAGE_TIMERS_KEY, JSON.stringify(changedTimers));
+      setTimersToLocalStorage(changedTimers);
       return changedTimers;
     }
 
@@ -41,14 +34,29 @@ function timersReducer(timers: Timer[], action: TimersReducerAction) {
         }
         return timer;
       });
-      localStorage.setItem(LOCAL_STORAGE_TIMERS_KEY, JSON.stringify(changedTimers));
+      setTimersToLocalStorage(changedTimers);
       return changedTimers;
     }
 
     case 'delete': {
       const changedTimers = timers.filter((timer) => timer.id !== action.id);
-      localStorage.setItem(LOCAL_STORAGE_TIMERS_KEY, JSON.stringify(changedTimers));
+      setTimersToLocalStorage(changedTimers);
       return changedTimers;
     }
   }
+}
+
+function getTimersFromLocalStorage() {
+  const loadedTimers = localStorage.getItem(LOCAL_STORAGE_TIMERS_KEY);
+  if (loadedTimers) {
+    return JSON.parse(loadedTimers, (key, value) => {
+      if (key === 'target') return new Date(value);
+      return value;
+    }) as Timer[];
+  }
+  return [];
+}
+
+function setTimersToLocalStorage(timers: Timer[]) {
+  localStorage.setItem(LOCAL_STORAGE_TIMERS_KEY, JSON.stringify(timers));
 }
