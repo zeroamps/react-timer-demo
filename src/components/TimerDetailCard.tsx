@@ -20,11 +20,11 @@ export function TimerDetailCard({ timer, dispatch }: Props) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const currentDateTime = new Date();
-  const finished = timer.target <= currentDateTime;
   const duration = dayjs.duration(timer.target.getTime() - currentDateTime.getTime());
+  const finished = duration.asSeconds() < 1;
 
-  function handleSaveTimer() {
-    dispatch({ type: 'update', id: timer.id, name: 'Lorem Ipsum', target: new Date(2024, 1, 1) });
+  function handleSaveTimer(name: string, target: Date) {
+    dispatch({ type: 'update', id: timer.id, name, target });
     setShowEditDialog(false);
   }
 
@@ -73,7 +73,13 @@ export function TimerDetailCard({ timer, dispatch }: Props) {
           Delete
         </Button>
       </Card.Footer>
-      <TimerEditDialog show={showEditDialog} onClose={() => setShowEditDialog(false)} onSave={handleSaveTimer} />
+      <TimerEditDialog
+        name={timer.name}
+        target={timer.target}
+        show={showEditDialog}
+        onClose={() => setShowEditDialog(false)}
+        onSave={handleSaveTimer}
+      />
       <TimerDeleteDialog
         show={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
