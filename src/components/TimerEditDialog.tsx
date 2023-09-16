@@ -2,6 +2,10 @@ import { useEffect } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
+import customParseFormatPlugin from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormatPlugin);
+
+const INPUT_DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 type Props = {
   name?: string;
@@ -26,7 +30,7 @@ export function TimerEditDialog({ name, target, show, onClose, onSave }: Props) 
 
   useEffect(() => {
     const defaultName = name ? name : '';
-    const defaultTarget = target ? dayjs(target).format('YYYY-MM-DD HH:mm:ss') : '';
+    const defaultTarget = target ? dayjs(target).format(INPUT_DATETIME_FORMAT) : '';
     reset({ name: defaultName, target: defaultTarget });
   }, [reset, name, target]);
 
@@ -61,12 +65,12 @@ export function TimerEditDialog({ name, target, show, onClose, onSave }: Props) 
             <Controller
               name="target"
               control={control}
-              rules={{ required: true, pattern: /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/i }}
+              rules={{ required: true, validate: (value) => dayjs(value, INPUT_DATETIME_FORMAT, true).isValid() }}
               render={({ field }) => (
-                <Form.Control isInvalid={!!errors.target} placeholder="Enter target date and time" {...field} />
+                <Form.Control isInvalid={!!errors.target} placeholder="Enter a valid target date and time" {...field} />
               )}
             />
-            <Form.Text className="fs-8 text-muted px-1">Use this input format: yyyy-MM-dd HH:mm:ss</Form.Text>
+            <Form.Text className="fs-8 text-muted px-1">Use a valid format: {INPUT_DATETIME_FORMAT}</Form.Text>
           </Form.Group>
         </Form>
       </Modal.Body>
