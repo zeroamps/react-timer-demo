@@ -73,18 +73,17 @@ export function TimerDetailCard({ timer, dispatch }: Props) {
           Delete
         </Button>
       </Card.Footer>
-      <TimerEditDialog
-        name={timer.name}
-        target={timer.target}
-        show={showEditDialog}
-        onClose={() => setShowEditDialog(false)}
-        onSave={handleSaveTimer}
-      />
-      <TimerDeleteDialog
-        show={showDeleteDialog}
-        onClose={() => setShowDeleteDialog(false)}
-        onDelete={handleDeleteTimer}
-      />
+      {showEditDialog && (
+        <TimerEditDialog
+          name={timer.name}
+          target={timer.target}
+          onClose={() => setShowEditDialog(false)}
+          onSave={handleSaveTimer}
+        />
+      )}
+      {showDeleteDialog && (
+        <TimerDeleteDialog onClose={() => setShowDeleteDialog(false)} onDelete={handleDeleteTimer} />
+      )}
     </Card>
   );
 }

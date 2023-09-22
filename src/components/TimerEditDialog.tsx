@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
@@ -10,7 +9,6 @@ const INPUT_DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 type Props = {
   name?: string;
   target?: Date;
-  show: boolean;
   onClose: () => void;
   onSave: (name: string, target: Date) => void;
 };
@@ -20,32 +18,23 @@ type Inputs = {
   target: string;
 };
 
-export function TimerEditDialog({ name, target, show, onClose, onSave }: Props) {
+export function TimerEditDialog({ name, target, onClose, onSave }: Props) {
+  const defaultName = name ? name : '';
+  const defaultTarget = target ? dayjs(target).format(INPUT_DATETIME_FORMAT) : '';
+  const defaultValues = { name: defaultName, target: defaultTarget };
+
   const {
-    reset,
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<Inputs>({});
-
-  useEffect(() => {
-    const defaultName = name ? name : '';
-    const defaultTarget = target ? dayjs(target).format(INPUT_DATETIME_FORMAT) : '';
-    reset({ name: defaultName, target: defaultTarget });
-  }, [reset, name, target]);
+  } = useForm<Inputs>({ defaultValues });
 
   const handleSubmitForm: SubmitHandler<Inputs> = (data) => {
     onSave(data.name, new Date(data.target));
-    reset();
   };
 
-  function handleCloseForm() {
-    onClose();
-    reset();
-  }
-
   return (
-    <Modal show={show} centered onHide={handleCloseForm}>
+    <Modal show={true} centered onHide={onClose}>
       <Modal.Header closeButton>
         <Modal.Title>Timer</Modal.Title>
       </Modal.Header>
@@ -75,7 +64,7 @@ export function TimerEditDialog({ name, target, show, onClose, onSave }: Props) 
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseForm}>
+        <Button variant="secondary" onClick={onClose}>
           Close
         </Button>
         <Button form="form" type="submit" variant="success">

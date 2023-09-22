@@ -24,7 +24,7 @@ export function TimerCreateCard({ dispatch }: Props) {
           </Button>
         </Card.Body>
       </Card>
-      <TimerEditDialog show={show} onClose={() => setShow(false)} onSave={handleSaveTimer} />
+      {show && <TimerEditDialog onClose={() => setShow(false)} onSave={handleSaveTimer} />}
     </>
   );
 }

@@ -1,14 +1,13 @@
 import { Button, Modal } from 'react-bootstrap';
 
 type Props = {
-  show: boolean;
   onClose: () => void;
   onDelete: () => void;
 };
 
-export function TimerDeleteDialog({ show, onClose, onDelete }: Props) {
+export function TimerDeleteDialog({ onClose, onDelete }: Props) {
   return (
-    <Modal show={show} centered onHide={onClose}>
+    <Modal show={true} centered onHide={onClose}>
       <Modal.Header closeButton>
         <Modal.Title>Timer</Modal.Title>
       </Modal.Header>
